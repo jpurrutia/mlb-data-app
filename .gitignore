@@ -119,3 +119,4 @@ duckdb/
 pg_duckdb/
 
 *.db
+*.json
