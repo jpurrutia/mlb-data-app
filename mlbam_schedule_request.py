@@ -1,7 +1,8 @@
+from typing import Dict, Any
+
 import json
 import requests
 import duckdb
-
 
 from db_utils import connect_to_db
 
@@ -9,23 +10,80 @@ from db_utils import connect_to_db
 # from flatten_json import flatten
 
 
-def get_mlb_schedule(dt):
+def get_mlb_schedule(dt: str) -> Dict[str, Any]:
     url = f"https://statsapi.mlb.com/api/v1/schedule?startDate={dt}&endDate={dt}&sportId=1"
-    return requests.get(url).json()
+    response = requests.get(url)
+
+    # check if response status is OK
+    if response.status_code != 200:
+        raise ValueError(
+            f"Failed to fetch schedule data. Status code: {response.status_code}"
+        )
+
+    schedule_data = response.json()
+
+    if not isinstance(schedule_data, dict) or "dates" not in schedule_data:
+        raise ValueError(
+            "Invalid Schedule Data: expected a a dictionary with 'dates' key."
+        )
+
+    dates = schedule_data.get("dates", [])
+
+    if not isinstance(dates, list):
+        raise ValueError("Invalid data: 'dates' should be a list.")
+
+    return schedule_data
 
 
+def get_schedule_date(schedule_data: Dict[str, Any]) -> str:
+    dates = schedule_data.get("dates", [])
+
+    if not dates:
+        return "There are no games or dates for this day."
+
+    if len(dates) > 1:
+        return "Multiple dates in schedule - something is wrong here."
+
+    schedule_data = dates[0]
+
+    return schedule_data["date"]
+
+
+# def write_payload_to_sql(table: str, payload: Dict[str, Any], cursor):
+
+
+# TODO: clean this up
 def main():
-    day_schedule = get_mlb_schedule("2024-08-28")
+    try:
+        result_data = get_mlb_schedule("2024-08-28")
+        games_payload = json.dumps(result_data)
+        result_date = get_schedule_date(schedule_data=result_data)
+
+    except ValueError as e:
+        print(f"Error {e}")
 
     # connect to db
     db = connect_to_db()
     cur = db.cursor()
+    breakpoint()
 
-    # res = cur.execute("SELECT * FROM mlb.games;")
+    # res = cur.execute("SELECT * FROM mlb.schedule;")
     # data = cur.fetchall()
 
-    # insert into db
-    print("we connected")
+    breakpoint()
+
+    # TODO: cleanup and add on constraint dupes
+    cur.execute(
+        "INSERT INTO mlb.schedule (schedule_date, games_payload) VALUES (%s, %s::jsonb) ",
+        (result_date, games_payload),
+    )
+
+    # commit transaction on connection object
+    db.commit()
+
+    # Close cursor and connection
+    cur.close()
+    db.close()
 
 
 if __name__ == "__main__":
