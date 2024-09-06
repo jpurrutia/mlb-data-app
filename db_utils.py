@@ -1,3 +1,4 @@
+from datetime import date
 from typing import Dict, Any
 
 import psycopg2
@@ -21,8 +22,12 @@ def connect_to_db():
     return
 
 
-def write_payload_to_sql_table(
-    dt: str, schema: str, table: str, payload: Dict[str, Any], cursor
+def write_schedule_payload_to_table(
+    dt: str,
+    schema: str,
+    table: str,
+    payload: Dict[str, Any],
+    cursor,
 ):
     try:
         cursor.execute(
@@ -33,6 +38,28 @@ def write_payload_to_sql_table(
             (dt, payload),
         )
         print(f"Successfully written payload for {dt} to {schema}.raw_{table}")
+    except psycopg2.Error as e:
+        print(f"SQL error: {e}")
+    return
+
+
+def write_pbp_payload_to_table(
+    game_date: date,
+    game_id: int,
+    schema: str,
+    table: str,
+    payload: Dict[str, Any],
+    cursor,
+):
+    try:
+        cursor.execute(
+            f"""INSERT INTO {schema}.raw_{table} (mlbam_game_date, mlbam_game_id, {table}_payload, created_at, updated_at)
+            VALUES (%s, %s, %s::jsonb, NOW(), NOW())
+            ON CONFLICT (mlbam_game_id)
+            DO UPDATE SET {table}_payload = EXCLUDED.{table}_payload, updated_at = NOW()""",
+            (game_date, game_id, payload),
+        )
+        print(f"Successfully written payload for {game_id} to {schema}.raw_{table}")
     except psycopg2.Error as e:
         print(f"SQL error: {e}")
     return

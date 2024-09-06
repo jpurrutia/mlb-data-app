@@ -4,7 +4,7 @@ import json
 import requests
 import psycopg2
 
-from db_utils import connect_to_db, write_payload_to_sql_table
+from db_utils import connect_to_db, write_schedule_payload_to_table
 
 
 def get_mlb_schedule(dt: str) -> Dict[str, Any]:
@@ -21,7 +21,7 @@ def get_mlb_schedule(dt: str) -> Dict[str, Any]:
 
     if not isinstance(schedule_data, dict) or "dates" not in schedule_data:
         raise ValueError(
-            "Invalid Schedule Data: expected a a dictionary with 'dates' key."
+            "Invalid Schedule Data: expected a dictionary with 'dates' key."
         )
 
     dates = schedule_data.get("dates", [])
@@ -48,14 +48,14 @@ def get_schedule_date(schedule_data: Dict[str, Any]) -> str:
 
 def main():
     try:
-        result_data = get_mlb_schedule("2024-08-28")
-        schedule_payload = json.dumps(result_data)
-        result_date = get_schedule_date(schedule_data=result_data)
+        schedule_data = get_mlb_schedule("2024-08-28")
+        schedule_payload = json.dumps(schedule_data)
+        result_date = get_schedule_date(schedule_data=schedule_data)
 
         db = connect_to_db()
 
         with db.cursor() as cur:
-            write_payload_to_sql_table(
+            write_schedule_payload_to_table(
                 result_date, "mlb", "schedule", schedule_payload, cur
             )
 
