@@ -6,9 +6,6 @@ import psycopg2
 
 from db_utils import connect_to_db, write_payload_to_sql_table
 
-# import pandas as pd
-# from flatten_json import flatten
-
 
 def get_mlb_schedule(dt: str) -> Dict[str, Any]:
     url = f"https://statsapi.mlb.com/api/v1/schedule?startDate={dt}&endDate={dt}&sportId=1"
