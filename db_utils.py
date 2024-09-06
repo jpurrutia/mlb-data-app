@@ -26,12 +26,13 @@ def write_payload_to_sql_table(
 ):
     try:
         cursor.execute(
-            f"""INSERT INTO {schema}.{table} ({table}_date, {table}_payload, created_at, updated_at)
+            f"""INSERT INTO {schema}.raw_{table} ({table}_date, {table}_payload, created_at, updated_at)
             VALUES (%s, %s::jsonb, NOW(), NOW())
             ON CONFLICT (schedule_date)
             DO UPDATE SET {table}_payload = EXCLUDED.{table}_payload, updated_at = NOW()""",
             (dt, payload),
         )
+        print(f"Successfully written payload for {dt} to {schema}.raw_{table}")
     except psycopg2.Error as e:
         print(f"SQL error: {e}")
     return
