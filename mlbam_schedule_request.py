@@ -4,7 +4,7 @@ import json
 import requests
 import duckdb
 
-from db_utils import connect_to_db
+from db_utils import connect_to_db, write_payload_to_sql_table
 
 # import pandas as pd
 # from flatten_json import flatten
@@ -49,14 +49,10 @@ def get_schedule_date(schedule_data: Dict[str, Any]) -> str:
     return schedule_data["date"]
 
 
-# def write_payload_to_sql(table: str, payload: Dict[str, Any], cursor):
-
-
-# TODO: clean this up
 def main():
     try:
         result_data = get_mlb_schedule("2024-08-28")
-        games_payload = json.dumps(result_data)
+        schedule_payload = json.dumps(result_data)
         result_date = get_schedule_date(schedule_data=result_data)
 
     except ValueError as e:
@@ -65,18 +61,8 @@ def main():
     # connect to db
     db = connect_to_db()
     cur = db.cursor()
-    breakpoint()
 
-    # res = cur.execute("SELECT * FROM mlb.schedule;")
-    # data = cur.fetchall()
-
-    breakpoint()
-
-    # TODO: cleanup and add on constraint dupes
-    cur.execute(
-        "INSERT INTO mlb.schedule (schedule_date, games_payload) VALUES (%s, %s::jsonb) ",
-        (result_date, games_payload),
-    )
+    write_payload_to_sql_table(result_date, "mlb", "schedule", schedule_payload, cur)
 
     # commit transaction on connection object
     db.commit()
