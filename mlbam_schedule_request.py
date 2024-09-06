@@ -2,7 +2,7 @@ from typing import Dict, Any
 
 import json
 import requests
-import duckdb
+import psycopg2
 
 from db_utils import connect_to_db, write_payload_to_sql_table
 
@@ -55,21 +55,22 @@ def main():
         schedule_payload = json.dumps(result_data)
         result_date = get_schedule_date(schedule_data=result_data)
 
+        db = connect_to_db()
+
+        with db.cursor() as cur:
+            write_payload_to_sql_table(
+                result_date, "mlb", "schedule", schedule_payload, cur
+            )
+
+            db.commit()
+
     except ValueError as e:
         print(f"Error {e}")
-
-    # connect to db
-    db = connect_to_db()
-    cur = db.cursor()
-
-    write_payload_to_sql_table(result_date, "mlb", "schedule", schedule_payload, cur)
-
-    # commit transaction on connection object
-    db.commit()
-
-    # Close cursor and connection
-    cur.close()
-    db.close()
+    except psycopg2.Error as e:
+        print(f"Database error: {e}")
+    finally:
+        if db:
+            db.close()
 
 
 if __name__ == "__main__":
