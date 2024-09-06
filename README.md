@@ -14,3 +14,5 @@ duckdb.sql("LOAD pg_duckdb;")
 duckdb.sql("SELECT 4;")
 duckdb.sql("CREATE EXTENSION pg_duckdb;")
 ```
+
+port print statements to logging info messages
