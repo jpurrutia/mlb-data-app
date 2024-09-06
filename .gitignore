@@ -118,5 +118,7 @@ plugins/
 duckdb/
 pg_duckdb/
 
+
 *.db
+sample_data/
 *.json
