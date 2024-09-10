@@ -30,6 +30,9 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Create a trigger to automatically set the id before insert
+DROP TRIGGER IF EXISTS trigger_set_raw_game_lineups_id ON mlb.raw_game_lineups;
 CREATE TRIGGER trigger_set_raw_game_lineups_id
-BEFORE INSERT ON mlb.raw_game_lineups FOR EACH ROW 
+BEFORE INSERT ON mlb.raw_game_lineups
+FOR EACH ROW
 EXECUTE FUNCTION set_raw_game_lineups_id();
+
