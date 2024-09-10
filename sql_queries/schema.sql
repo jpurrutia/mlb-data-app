@@ -16,16 +16,6 @@ CREATE TABLE mlb.pbp (
 	pbp_payload jsonb NOT NULL
 );
 
-
-CREATE TABLE mlb.raw_game_lineups (
-	id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-	schedule_date timestamp NOT NULL,
-	lineup integer[] timestamp NOT NULL,
-	mlbam_team_id integer NOT NULL,
-	--UNIQUE (mlbam)
-);
-
-
 CREATE TABLE mlb.raw_game_lineups (
 	-- might need to see if this is scalable
     id UUID,
