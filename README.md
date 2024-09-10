@@ -44,3 +44,5 @@ SET hash_column = MD5(CONCAT(column1, column2, column3));
 ### validation functions
 Validation Functions are functions that can be run in tandem with pipelines.
 Simple but effective functions that ensures valid function runs and data collection/movement
+
+ensure that the function made for md5_to_uuid is actually necessary
