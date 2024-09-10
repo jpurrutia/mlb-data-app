@@ -57,3 +57,11 @@ We curate that data and then we move towards create the calculated gold_ tables 
 Then we start building the API and react client.
 
 
+After MVP
+- write tests
+- backfills
+- streaming
+- CICD
+- Cloud Hosting
+- Security?
+
