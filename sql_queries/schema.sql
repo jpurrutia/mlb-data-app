@@ -26,12 +26,17 @@ CREATE TABLE mlb.raw_game_lineups (
 );
 
 
-CREATE TABLE your_table (
+CREATE TABLE mlb.raw_game_lineups (
 	-- might need to see if this is scalable
-    id UUID DEFAULT md5_to_uuid(MD5(CONCAT(game_id, mlbam_team_id, schedule_date))),
+    id UUID,
 	schedule_date timestamp NOT NULL,
 	mlbam_game_id integer NOT NULL,
 	mlbam_team_id integer NOT NULL,
-	lineup integer[] timestamp NOT NULL,
+	lineup integer[],
+	propable_pitcher integer,
+	bullpen integer[],
+	lineup_set boolean DEFAULT FALSE NOT NULL,
+	created_at timestamptz DEFAULT NOW(),
+	updated_at timestamptz DEFAULT NOW(),
 	UNIQUE (id)
 );
