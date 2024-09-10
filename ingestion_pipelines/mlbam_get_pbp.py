@@ -19,6 +19,7 @@ def get_game_pbp(game_id):
         )
 
     pbp_data = response.json()
+    breakpoint()
 
     if not isinstance(pbp_data, dict) or not pbp_data["liveData"]["plays"]["allPlays"]:
         raise ValueError(f"Invalid Payload: expected play by play data with plays data")
@@ -26,9 +27,29 @@ def get_game_pbp(game_id):
     return pbp_data
 
 
+def find_key_path(obj, key, path=None):
+    if path is None:
+        path = []
+
+    if isinstance(obj, dict):
+        if key in obj:
+            return path + [key]
+        for k, v in obj.items():
+            result = find_key_path(v, key, path + [k])
+            if result is not None:
+                return result
+    elif isinstance(obj, list):
+        for i, item in enumerate(obj):
+            result = find_key_path(item, key, path + [i])
+            if result is not None:
+                return result
+    return None
+
+
 def main():
     try:
         pbp_data = get_game_pbp("745541")
+        # no_pbp_data = get_game_pbp("0")
         pbp_payload = json.dumps(pbp_data)
 
         db = connect_to_db()
