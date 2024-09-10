@@ -20,19 +20,27 @@ port print statements to logging info messages
 
 # Data Sources and Endpoints
 
-Probables pitchers
+### Probables pitchers
 - pbp data: indexed -> pbp_data['gameData']['probablePitchers']
+- pbp_data['gameData']['probablePitchers']['home']['id']
+- pbp_data['gameData']['probablePitchers']['away']['id']
+
+
+
 {'away': {'id': 681293, 'fullName': 'Spencer Arrighetti', 'link': '/api/v1/people/681293'}, 'home': {'id': 592836, 'fullName': 'Taijuan Walker', 'link': '/api/v1/people/592836'}}
 
+### Get Line up data
+- pbp_data['liveData']['boxscore']['teams']['home']['battingOrder']
+- pbp_data['liveData']['boxscore']['teams']['away']['battingOrder']
+
+### Get bullben data
+- pbp_data['liveData']['boxscore']['teams']['home']['bullpen']
 
 First pitch
 - pbp_data['gameData']['gameInfo']
 {'attendance': 37778, 'firstPitch': '2024-08-28T20:07:00.000Z', 'gameDurationMinutes': 148}
 
 
-Get LineUp
-- pbp_data['liveData']['boxscore']['teams']['home']['battingOrder']
-- pbp_data['liveData']['boxscore']['teams']['away']['battingOrder']
 
 
 Combining three columns

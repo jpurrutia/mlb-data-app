@@ -1,3 +1,5 @@
+
+-- convert md5 to uuid
 CREATE OR REPLACE FUNCTION md5_to_uuid(md5_hash text) RETURNS uuid AS $$
 DECLARE
     hex_str text;
@@ -12,5 +14,15 @@ BEGIN
 				ELSE 'a'END ||
                 SUBSTRING(hex_str FROM 18 FOR 3) || '-' ||
                 SUBSTRING(hex_str FROM 21 FOR 12) AS uuid);
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- set lineup id
+CREATE OR REPLACE FUNCTION set_raw_game_lineups_id()
+RETURNS TRIGGER AS $$
+BEGIN
+	NEW.id = md5_to_uuid(MD5(CONCAT(NEW.mlbam_game_id::text, NEW.mlbam_team_id::text, NEW.schedule_date::text)));
+	RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
