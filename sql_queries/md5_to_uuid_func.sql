@@ -22,7 +22,14 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION set_raw_game_lineups_id()
 RETURNS TRIGGER AS $$
 BEGIN
-	NEW.id = md5_to_uuid(MD5(CONCAT(NEW.mlbam_game_id::text, NEW.mlbam_team_id::text, NEW.schedule_date::text)));
-	RETURN NEW;
+    NEW.id := md5_to_uuid(MD5(CONCAT(NEW.mlbam_game_id::text, NEW.mlbam_team_id::text, NEW.schedule_date::text)));
+    NEW.created_at := COALESCE(NEW.created_at, NOW());
+    NEW.updated_at := NOW();
+    RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+
+-- Create a trigger to automatically set the id before insert
+CREATE TRIGGER trigger_set_raw_game_lineups_id
+BEFORE INSERT ON mlb.raw_game_lineups FOR EACH ROW 
+EXECUTE FUNCTION set_raw_game_lineups_id();
