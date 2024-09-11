@@ -82,3 +82,9 @@ After MVP
 - Cloud Hosting
 - Security?
 
+## Update Sept 11. 2024
+We need to transform the pbp data into the runs created stuff I've done in python.
+BUT do I do it in python? If yes, how do I orchestrate that? I can't trigger python via postgresql.
+Can I find a way to pivot in PostgreSQL? If I do choose python, what tool orchestrates and runs the
+Python? It was cronjob to initially run the other python scripts. Maybe I do that for the Run calculated stuff too? 
+Query DB table and write back to new table?
