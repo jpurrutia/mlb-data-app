@@ -88,3 +88,5 @@ BUT do I do it in python? If yes, how do I orchestrate that? I can't trigger pyt
 Can I find a way to pivot in PostgreSQL? If I do choose python, what tool orchestrates and runs the
 Python? It was cronjob to initially run the other python scripts. Maybe I do that for the Run calculated stuff too? 
 Query DB table and write back to new table?
+
+Right now we have the events matched up with the baseball reference for the sample data and steals. Define the columns and we're good.
