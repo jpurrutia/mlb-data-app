@@ -16,7 +16,9 @@ SELECT date
 	--	WHEN games->'status'->>'statusCode' = 'F' AS game_status THEN
 	--	WHEN games->'status'->>'statusCode' = 'F' AS game_status THEN
 	--END AS games_
+	,games->'status'->'codedGameState' AS game_state_code
 	,games->'status'->>'detailedState' AS game_state
+	,games->>'gameNumber' AS game_number
 	,games->'teams'->'away'->'team'->>'id' AS away_team_id
 	,games->>'dayNight' AS day_night
 	,CASE
@@ -25,18 +27,13 @@ SELECT date
 		ELSE NULL
 	END AS double_header_flag
 	-- games->'team's->'away'->'team'->'name' AS away_team_name
-	
-	,games->'teams'->'away'->>'score' AS away_score
+	,games->'teams'->'away'->>'score' AS away_score 
 	,games->'teams'->'away'->'leagueRecord'->>'wins' AS away_team_wins
 	,games->'teams'->'away'->'leagueRecord'->>'losses' AS away_team_losses
-	
 	,games->'teams'->'home'->'team'->>'id' AS home_team_id
 	-- games->'team's->'home'->'team'->'name' AS home_team_name
 	,games->'teams'->'home'->'score' AS home_score
 	,games->'teams'->'home'->'leagueRecord'->>'wins' AS away_team_wins
 	,games->'teams'->'home'->'leagueRecord'->>'losses' AS away_team_losses
-	
 	,games->'venue'->'id' AS venue_id
-	
-	
 FROM flattened_games_payload
