@@ -1,6 +1,6 @@
 
 -- convert md5 to uuid
-CREATE OR REPLACE FUNCTION md5_to_uuid(md5_hash text) RETURNS uuid AS $$
+CREATE OR REPLACE FUNCTION mlb.md5_to_uuid(md5_hash text) RETURNS uuid AS $$
 DECLARE
     hex_str text;
 BEGIN
@@ -17,22 +17,20 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-
 -- set lineup id
 CREATE OR REPLACE FUNCTION set_raw_game_lineups_id()
 RETURNS TRIGGER AS $$
 BEGIN
-    NEW.id := md5_to_uuid(MD5(CONCAT(NEW.mlbam_game_id::text, NEW.mlbam_team_id::text, NEW.schedule_date::text)));
+    NEW.id := md5_to_uuid(MD5(CONCAT(NEW.mlbam_game_id::text, NEW.mlbam_game_date::text)));
     NEW.created_at := COALESCE(NEW.created_at, NOW());
     NEW.updated_at := NOW();
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
--- Create a trigger to automatically set the id before insert
-DROP TRIGGER IF EXISTS trigger_set_raw_game_lineups_id ON mlb.raw_game_lineups;
+-- create trigger
+DROP TRIGGER IF EXISTS trigger_set_raw_game_lineups_id ON mlb.raw_lineups;
 CREATE TRIGGER trigger_set_raw_game_lineups_id
-BEFORE INSERT ON mlb.raw_game_lineups
+BEFORE INSERT ON mlb.raw_lineups
 FOR EACH ROW
 EXECUTE FUNCTION set_raw_game_lineups_id();
-

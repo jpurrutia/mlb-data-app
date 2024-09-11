@@ -39,6 +39,21 @@ CREATE TABLE mlb.raw_game_lineups (
 	updated_at timestamptz DEFAULT NOW(),
 	UNIQUE (id)
 );
+
+CREATE TABLE mlb.raw_game_lineups_json (
+	-- might need to see if this is scalable ID creation
+    id UUID,
+	schedule_date timestamp NOT NULL,
+	mlbam_game_id integer NOT NULL,
+	mlbam_team_id integer NOT NULL,
+	lineup JSONB,
+	lineup_set boolean DEFAULT FALSE NOT NULL,
+	created_at timestamptz DEFAULT NOW(),
+	updated_at timestamptz DEFAULT NOW(),
+	UNIQUE (id)
+);
+
+
 -- Mock INSERT Record
 /*
 INSERT INTO mlb.raw_game_lineups (schedule_date, mlbam_game_id, mlbam_team_id, lineup, probable_pitcher, bullpen, home_flag, away_flag, lineup_set, created_at, updated_at)

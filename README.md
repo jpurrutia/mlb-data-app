@@ -17,17 +17,34 @@ duckdb.sql("CREATE EXTENSION pg_duckdb;")
 
 # Data Sources and Endpoints
 
+### Get Play by Play
+- need to figure out how I'm going to account for empty payloads with game statusCode
+`pbp_data["gameData"]["status"]["statusCode"]`
+- I can create an enum and get the different status. Depending on status, write payload or return empty
+  payload
+```
+   "status": {
+      "abstractGameState": "Preview",
+      "codedGameState": "S",
+      "detailedState": "Scheduled",
+      "statusCode": "S",
+      "startTimeTBD": false,
+      "abstractGameCode": "P"
+```
+
 ### Probables pitchers
 - pbp data: indexed -> pbp_data['gameData']['probablePitchers']
 - pbp_data['gameData']['probablePitchers']['home']['id']
 - pbp_data['gameData']['probablePitchers']['away']['id']
-
+I've inserted logic here to check if there is data in here and to retun None if there is None. I'll overwrite these values when I find something and update records
 
 {'away': {'id': 681293, 'fullName': 'Spencer Arrighetti', 'link': '/api/v1/people/681293'}, 'home': {'id': 592836, 'fullName': 'Taijuan Walker', 'link': '/api/v1/people/592836'}}
 
 ### Get Line up data
 - pbp_data['liveData']['boxscore']['teams']['home']['battingOrder']
 - pbp_data['liveData']['boxscore']['teams']['away']['battingOrder']
+This could be empty depending on the game status and lineup hasnt been announced. SO I guess we write
+empty value to database and then update.
 
 ### Get bullben data
 - pbp_data['liveData']['boxscore']['teams']['away']['bullpen']
