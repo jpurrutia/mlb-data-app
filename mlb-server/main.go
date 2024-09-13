@@ -7,6 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// client
+
 // user as application user
 type user struct {
 	ID       string `json:"id"`
@@ -21,40 +23,6 @@ var users = []user{
 	{ID: "1", First: "JP", Last: "Urrutia", Username: "jpurrutia"},
 	{ID: "2", First: "John", Last: "Smith", Username: "jsmith"},
 	{ID: "3", First: "Joe", Last: "Schmoe", Username: "jschmoe"},
-}
-
-var usernames = make(map[string]bool)
-
-func validateUsername(c *gin.Context) {
-	username := c.PostForm("username")
-
-	if username == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Username cannot be empty"})
-	}
-
-	if !isValidUsername(username) {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Username can only contain alphanumeric chars and underscores"})
-		return
-	}
-
-	if usernames[username] {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Username already exists"})
-		return
-	}
-
-	fmt.Println("Username:", username)
-	usernames[username] = true
-
-	c.JSON(http.StatusOK, gin.H{"message": "Username accepted"})
-}
-
-func isValidUsername(username string) bool {
-	for _, char := range username {
-		if !((char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z') || (char >= '0' && char <= '9') || char == '_') {
-			return false
-		}
-	}
-	return true
 }
 
 func getUsers(c *gin.Context) {
@@ -109,7 +77,6 @@ func main() {
 	router.GET("/users", getUsers)
 	router.GET("/users/:id", getUserByID)
 	router.POST("/users", postUsers)
-	router.POST("/validate-username", validateUsername)
 
 	fmt.Println("Server running on http://localhost:8080")
 	router.Run("localhost:8080")
