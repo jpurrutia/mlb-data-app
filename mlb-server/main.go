@@ -7,17 +7,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// client
-
-// user as application user
 type user struct {
 	ID       string `json:"id"`
 	First    string `json:"first"`
 	Last     string `json:"last"`
 	Username string `json:"username"`
 }
-
-// players, lineup, team, game
 
 var users = []user{
 	{ID: "1", First: "JP", Last: "Urrutia", Username: "jpurrutia"},
@@ -28,9 +23,6 @@ var users = []user{
 func getUsers(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, users)
 }
-
-// accept user name, validate it, print user to stdout
-// handle duplicate user names or empty parameters
 
 func postUsers(c *gin.Context) {
 	var newUser user
