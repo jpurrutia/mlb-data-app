@@ -123,3 +123,5 @@ Additional info here
 - Mock database to mock integration
 - docker container
 - script to make call and 
+
+- Deploy Go Server
