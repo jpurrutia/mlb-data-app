@@ -10,6 +10,7 @@ func SetUpRouter() *gin.Engine {
 	router := gin.Default()
 
 	router.GET("/events", controllers.ListEventsController)
+	router.GET("/games", controllers.ListGamesController)
 	//router.GET("/users", listUsers)
 	//router.GET("/users/:id", getUser)
 	//router.POST("/users", createUser)
