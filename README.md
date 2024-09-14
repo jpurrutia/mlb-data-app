@@ -90,3 +90,36 @@ Python? It was cronjob to initially run the other python scripts. Maybe I do tha
 Query DB table and write back to new table?
 
 Right now we have the events matched up with the baseball reference for the sample data and steals. Define the columns and we're good.
+
+
+### GoLang Portion: API and Client (Javascript)
+
+Making API Calls
+
+4 necessary things to build a Go Client
+- http.Client
+- http.Request
+- context.Context -> times or cancel functions
+- Request payload
+
+
+Building a client that connects to your server
+
+server in one terminal tab
+client running in another terminal tab
+
+
+### Integration and Contract Testing
+Reliability between services is paramount in modern software. If you are building an API that is meant
+to define communication betweens services or that are system critical it might be worth expanding
+your test stack.
+● Integrations Tests
+● End-to-End Tests
+Additional info here
+
+
+- integration tests with github actions
+- Sidecar docker containers - io style calls
+- Mock database to mock integration
+- docker container
+- script to make call and 
