@@ -1,3 +1,4 @@
+CREATE TABLE mlb.schedule AS (
 WITH dates_payload AS (
 	SELECT jsonb_array_elements(schedule_payload->'dates') AS dates_payload
 	FROM mlb.raw_schedule
@@ -7,8 +8,8 @@ flattened_games_payload AS (
 		,jsonb_array_elements(dates_payload->'games') AS games
 	FROM dates_payload
 )
-SELECT date
-	,games->>'gamePk' AS game_id
+SELECT games->>'gamePk' AS game_id
+	,date
 	,games->>'gameGuid' AS game_guid
 	,games->>'season' AS season
 	,games->>'gameType' AS game_type
@@ -16,7 +17,7 @@ SELECT date
 	--	WHEN games->'status'->>'statusCode' = 'F' AS game_status THEN
 	--	WHEN games->'status'->>'statusCode' = 'F' AS game_status THEN
 	--END AS games_
-	,games->'status'->'codedGameState' AS game_state_code
+	,games->'status'->>'codedGameState' AS game_state_code
 	,games->'status'->>'detailedState' AS game_state
 	,games->>'gameNumber' AS game_number
 	,games->'teams'->'away'->'team'->>'id' AS away_team_id
@@ -33,7 +34,8 @@ SELECT date
 	,games->'teams'->'home'->'team'->>'id' AS home_team_id
 	-- games->'team's->'home'->'team'->'name' AS home_team_name
 	,games->'teams'->'home'->'score' AS home_score
-	,games->'teams'->'home'->'leagueRecord'->>'wins' AS away_team_wins
-	,games->'teams'->'home'->'leagueRecord'->>'losses' AS away_team_losses
+	,games->'teams'->'home'->'leagueRecord'->>'wins' AS home_team_wins
+	,games->'teams'->'home'->'leagueRecord'->>'losses' AS home_team_losses
 	,games->'venue'->'id' AS venue_id
 FROM flattened_games_payload
+)
