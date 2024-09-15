@@ -128,3 +128,182 @@ Additional info here
 
 TODO:
 - DAte in events is WRONG
+
+
+### UI - NextJS 
+Certainly! I'd be happy to help you create a simple table to display this data. This will be a great starting point for learning React and TypeScript. Let's create a new component for this table view.
+
+First, let's create a new file called `EventTable.tsx` in your `components` folder. Here's a simple implementation of a table component:
+
+
+Here's a breakdown of what's happening in these components:
+
+1. `EventTable.tsx`:
+   - This component takes an array of `Event` objects as a prop.
+   - It renders a table with headers for Inning, Half, Batter, Pitcher, and Event.
+   - It maps over the events array to create a row for each event.
+   - We're using some basic Tailwind CSS classes for styling.
+
+2. `UserInterface.tsx`:
+   - This component now uses the `EventTable` component instead of rendering individual `BaseballEvent` components.
+   - It passes the `events` array to the `EventTable` component.
+
+To use this new table view:
+
+1. Save the `EventTable.tsx` file in your `components` folder.
+2. Update the `UserInterface.tsx` file as shown above.
+3. Make sure your `pages/index.tsx` file is still correctly fetching and passing the events data.
+
+This simple table view will give you a good starting point to learn and experiment with React and TypeScript. Here are some ideas for how you can expand on this:
+
+1. Add sorting functionality to the table columns.
+2. Implement pagination to handle large numbers of events.
+3. Add filters to show events for specific innings or players.
+4. Create a detail view that shows when you click on a row.
+
+Remember, React is all about creating reusable components and managing state. As you build more features, you'll get more comfortable with these concepts. Don't hesitate to ask if you have any questions or if you'd like to learn how to implement any specific features!
+
+Styling improvements:
+
+Add more CSS to make the table more visually appealing
+Implement responsive design for better mobile viewing
+
+Functionality enhancements:
+
+Add sorting capabilities (e.g., sort by inning, batter, or event type)
+Implement filtering (e.g., show only events for a specific inning or player)
+Add pagination if there are many events
+
+Data visualization:
+
+Create charts or graphs to represent game statistics
+Add a visual representation of the baseball field and player positions
+
+User interaction:
+
+Allow users to click on a row to see more details about the event
+Implement a search function to find specific events quickly
+
+Real-time updates:
+
+If possible, implement live updates as new events occur during a game
+
+Game summary:
+
+Add a summary section showing key statistics for the game
+
+Multiple game support:
+
+Allow users to switch between different games or dates
+
+Would you like to focus on any of these areas? Or do you have any specific features in mind that you'd like to implement next? I'd be happy to guide you through the process of adding new functionality to your application.
+
+To transform this into a comprehensive baseball business intelligence app, consider the following enhancements:
+
+Data Model Expansion:
+
+Teams
+Players
+Games
+Seasons
+Leagues
+Venues
+
+
+Backend Enhancements:
+
+Create more API endpoints for each entity (e.g., /teams, /players, /games)
+Implement filtering, sorting, and pagination in the API
+Add authentication and authorization
+
+
+Frontend Features:
+a. Dashboard:
+
+Overview of key statistics
+Recent game results
+Upcoming games
+
+b. Team Analysis:
+
+Team performance over time
+Player statistics within teams
+Head-to-head comparisons
+
+c. Player Profiles:
+
+Individual player statistics
+Performance trends
+Comparison tools
+
+d. Game Analysis:
+
+Detailed game breakdowns
+Play-by-play analysis
+Win probability charts
+
+e. League Standings:
+
+Current standings
+Playoff predictions
+
+f. Advanced Analytics:
+
+Predictive models for player performance
+Team strategy analysis
+Player value calculations (e.g., WAR)
+
+
+Data Visualization:
+
+Implement charts and graphs using libraries like Chart.js or D3.js
+Create interactive field diagrams for spatial analysis
+
+
+User Interaction:
+
+Implement user accounts for personalized dashboards
+Allow users to create and save custom reports
+
+
+Real-time Updates:
+
+Implement WebSocket connections for live game updates
+
+
+
+To start building these features:
+
+Expand your Go backend:
+
+Create new models and database tables for each entity
+Implement new API endpoints with filtering and sorting capabilities
+
+
+Enhance the frontend:
+
+Create new React components for each feature (e.g., Dashboard, TeamAnalysis)
+Implement routing to navigate between different views
+Use a state management solution like Redux or React Context for complex state
+
+
+Implement data fetching:
+
+Create custom hooks for fetching data from your new API endpoints
+Implement error handling and loading states
+
+
+Add interactivity:
+
+Implement sorting and filtering on the client-side
+Create forms for user input (e.g., date ranges for reports)
+
+
+Improve the UI:
+
+Use a UI framework like Material-UI or Tailwind CSS for consistent styling
+Create a responsive layout for mobile and desktop views
+
+
+
+Here's a simple example of how you might start creating a dashboard component:
