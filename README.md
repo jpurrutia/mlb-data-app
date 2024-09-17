@@ -148,6 +148,8 @@ Here's a breakdown of what's happening in these components:
    - This component now uses the `EventTable` component instead of rendering individual `BaseballEvent` components.
    - It passes the `events` array to the `EventTable` component.
 
+__USER INTERFACE__ - #TODO -> Design front end __( Figma )__
+
 To use this new table view:
 
 1. Save the `EventTable.tsx` file in your `components` folder.
@@ -179,7 +181,7 @@ Data visualization:
 Create charts or graphs to represent game statistics
 Add a visual representation of the baseball field and player positions
 
-User interaction:
+User interaction: 
 
 Allow users to click on a row to see more details about the event
 Implement a search function to find specific events quickly
