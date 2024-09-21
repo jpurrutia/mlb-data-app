@@ -309,3 +309,35 @@ Create a responsive layout for mobile and desktop views
 
 
 Here's a simple example of how you might start creating a dashboard component:
+
+
+## update - 9.21.2024
+Took a few dats break to move and getting back to it. 
+1. Checkpoint where I'm at in regards to MVP
+2. Inventorize components built and left
+3. Check off things
+4. refine incomplete things
+5. design and iterate UI
+6. Finish MVP
+
+1. Checkpoint
+
+Data Model:
+- Currently we have the following tables: 
+
+
+- (bronze) raw_pbp -> (silver) curated_pbp -> 
+- ()
+
+
+Ingestion pipelines:
+- working ingestion pipelines for one game.
+- After MVP is done, backfilling db. -> Should I do minio? DB might be too much for historic
+- Minio as local file store. DuckDB, as postgresql extension to read minio? We're storing  raw JSON so... we'll see. A decision needs to be made here.
+
+- Action Item -> 
+
+Curation Pipelines:
+- Transformation logic in postgresql is done. Would need to create a stored procedure and trigger on the tables that are involved here. Trigger after insert on new records? Need to validate that I'm only inserting new records and overwrite on a key so no duplicates. We'll add a data quality check to write's to a personal slack channel to ensure this is monitored. OR OR OR -> SNS topic? Email alerts? over slack? idk
+
+- Action Item -> have simple stored function to do operation.
