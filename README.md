@@ -329,6 +329,8 @@ Data Model:
 - (bronze) raw_pbp -> (silver) curated_pbp -> 
 
 
+- Action item -> Define table model so this can be done (Priority: High)
+
 Ingestion pipelines:
 - working ingestion pipelines for one game.
 - After MVP is done, backfilling db. -> Should I do minio? DB might be too much for historic
