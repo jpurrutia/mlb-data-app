@@ -327,7 +327,6 @@ Data Model:
 
 
 - (bronze) raw_pbp -> (silver) curated_pbp -> 
-- ()
 
 
 Ingestion pipelines:
@@ -340,4 +339,10 @@ Ingestion pipelines:
 Curation Pipelines:
 - Transformation logic in postgresql is done. Would need to create a stored procedure and trigger on the tables that are involved here. Trigger after insert on new records? Need to validate that I'm only inserting new records and overwrite on a key so no duplicates. We'll add a data quality check to write's to a personal slack channel to ensure this is monitored. OR OR OR -> SNS topic? Email alerts? over slack? idk
 
+- I just added the pivot procedure to the postgresql code. That needs to be a trigger.
+
+
+
 - Action Item -> have simple stored function to do operation.
+
+TODO: Design the flow of transformation and curation. How often is it going to happen. How much data is going to be process on each cascading run. This is important!!!
