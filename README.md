@@ -359,6 +359,8 @@ Ingestion pipelines:
 - After MVP is done, backfilling db. -> Should I do minio? DB might be too much for historic
 - Minio as local file store. DuckDB, as postgresql extension to read minio? We're storing  raw JSON so... we'll see. A decision needs to be made here.
 
+- I need to decide how I'm going to orchestrate this
+
 - Action Item -> 
 
 Curation Pipelines:
