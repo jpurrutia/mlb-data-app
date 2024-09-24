@@ -354,6 +354,10 @@ Data Flow
 
 - Action item -> Define table model so this can be done (Priority: High)
 
+- Tables are defined. Just make a visual representation and then model what the final daily lineup value tables will look like.
+- will have a leading calculation in here somewhere. Need to decide if that's being done at the player level or the lineup level.
+-
+
 Ingestion pipelines:
 - working ingestion pipelines for one game.
 - After MVP is done, backfilling db. -> Should I do minio? DB might be too much for historic
