@@ -1,3 +1,4 @@
+CREATE TABLE mlb.curated_events_runs_created AS (
 WITH events AS (
   SELECT 
     player_name,
@@ -9,10 +10,11 @@ WITH events AS (
       COALESCE(batter, pitcher) as player_name,
       game_date::date as game_date,
       event
-    FROM mlb.events
+    FROM mlb.curated_pbp_events
   ) subquery
   GROUP BY player_name, game_date, event
-)
+),
+event_counts AS (
 SELECT 
   player_name,
   game_date,
@@ -65,7 +67,25 @@ SELECT
   SUM(CASE WHEN event = 'Caught Stealing' THEN event_count ELSE 0 END) as caught_stealing
 FROM events
 GROUP BY player_name, game_date
-ORDER BY player_name, game_date;
-
-
-
+ORDER BY player_name, game_date
+),
+calculated_stats AS (
+  SELECT *,
+    single + (double * 2) + (triple * 3) + (home_run * 4) AS tb,
+    bunt_groundout + double + field_error + fielders_choice + flyout + grounded_into_dp + groundout + hit_by_pitch + home_run + intent_walk + lineout + pop_out + sac_bunt + sac_fly + single + strikeout + strikeout_double_play + triple + walk AS ab,
+    single + double + triple + home_run AS hits,
+    single + double + triple + home_run + walk + hit_by_pitch - (caught_stealing_2b + caught_stealing_3b + caught_stealing_home) - grounded_into_dp AS on_base,
+    single + (double * 2) + (triple * 3) + (home_run * 4) + 
+    (0.26 * (walk + hit_by_pitch - intent_walk)) + 
+    (0.52 * (sac_bunt + sac_fly + stolen_base_2b + stolen_base_3b)) AS bases_advanced,
+    bunt_groundout + double + field_error + fielders_choice + flyout + grounded_into_dp + groundout + hit_by_pitch + home_run + intent_walk + lineout + pop_out + sac_bunt + sac_fly + single + strikeout + strikeout_double_play + triple + walk + walk + sac_bunt + sac_fly AS opportunities
+  FROM event_counts
+)
+SELECT *,
+  CASE 
+    WHEN opportunities = 0 THEN NULL 
+    ELSE (on_base * bases_advanced) / opportunities 
+  END AS technical_rc
+FROM calculated_stats
+ORDER BY player_name, game_date
+)

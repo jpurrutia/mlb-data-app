@@ -19,7 +19,7 @@ def extract_team_data(payload: Dict[str, Any], home_away: str) -> Dict[str, Any]
             "probablePitcher": None,
         }
 
-        probable_pitchers = payload["gameData"].get("probabPitchers", {})
+        probable_pitchers = payload["gameData"].get("probablePitchers", {})
         if probable_pitchers.get(home_away):
             team_data["probablePitcher"] = probable_pitchers[home_away].get("id")
 
@@ -70,7 +70,8 @@ def write_lineup_payload_to_table(
 
 def main():
     try:
-        pbp_data = get_game_pbp("746423")
+        pbp_data = get_game_pbp("745541")
+        breakpoint()
         full_payload = create_full_payload(pbp_data)
         breakpoint()
         json_payload = create_json_payload(full_payload)

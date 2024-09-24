@@ -312,7 +312,7 @@ Here's a simple example of how you might start creating a dashboard component:
 
 
 ## update - 9.21.2024
-Took a few dats break to move and getting back to it. 
+Took a few days break to move and getting back to it. 
 1. Checkpoint where I'm at in regards to MVP
 2. Inventorize components built and left
 3. Check off things
@@ -324,9 +324,32 @@ Took a few dats break to move and getting back to it.
 
 Data Model:
 - Currently we have the following tables: 
+  
+Play by Play, Events, and Runs Created
+  - raw_pbp
+  - curated_events_runs_created
+
+Schedule and Games
+  - raw_schedule
+  - curated_games
+
+Lineups
+  - raw_lineups
+  - curated_lineups
 
 
-- (bronze) raw_pbp -> (silver) curated_pbp -> 
+Daily Lineup Value Calculations (per team id, away/home per game)
+  - total_batting order value (SUM):
+  - total pitching value = starting pitcher value + bullpen (SUM):
+
+
+
+Data Flow
+  - (bronze) raw_pbp -> (silver) curated_pbp -> (silver) curated_events_run_pbp   -------->
+  - (bronze) raw_schedule -> (silver) games                                       ------> daily_lineup_values
+  - (bronze) raw_lineups -> (silver) curated_lineups                              -------->
+
+
 
 
 - Action item -> Define table model so this can be done (Priority: High)
@@ -342,8 +365,6 @@ Curation Pipelines:
 - Transformation logic in postgresql is done. Would need to create a stored procedure and trigger on the tables that are involved here. Trigger after insert on new records? Need to validate that I'm only inserting new records and overwrite on a key so no duplicates. We'll add a data quality check to write's to a personal slack channel to ensure this is monitored. OR OR OR -> SNS topic? Email alerts? over slack? idk
 
 - I just added the pivot procedure to the postgresql code. That needs to be a trigger.
-
-
 
 - Action Item -> have simple stored function to do operation.
 

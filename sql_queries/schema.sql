@@ -53,6 +53,23 @@ CREATE TABLE mlb.raw_game_lineups_json (
 	UNIQUE (id)
 );
 
+-- mlb.pbp_events definition
+
+-- Drop table
+
+-- DROP TABLE mlb.pbp_events;
+
+CREATE TABLE mlb.pbp_events (
+	id uuid NULL,
+	game_id text NULL,
+	game_date text NULL,
+	inning text NULL,
+	half_inning text NULL,
+	batter text NULL,
+	pitcher text NULL,
+	"event" text NULL
+);
+
 
 -- Mock INSERT Record
 /*

@@ -1,8 +1,9 @@
-CREATE TABLE mlb.events AS (
+CREATE TABLE mlb.curated_pbp_events AS (
 WITH all_plays AS (
 SELECT
 id AS id,
-pbp_payload->'gamePk' as game_id,
+pbp_payload->'gameData'->'datetime'->>'officialDate' AS game_date,
+pbp_payload->>'gamePk' as game_id,
 pbp_payload->'gameData'->'game'->>'season' as season,
 pbp_payload->'gameData'->'game'->>'type' as game_type,
 pbp_payload->'gameData'->'game'->>'doubleHeader' as double_header,
@@ -25,6 +26,7 @@ play_events AS (
     SELECT
         id,
         game_id,
+        game_date,
         all_plays->'about'->>'inning' as inning,
         all_plays->'about'->>'halfInning' as half_inning,
         all_plays->'matchup'->'batter'->>'fullName' as batter,
@@ -47,6 +49,7 @@ unnested_events AS (
     SELECT
         id,
         game_id,
+        game_date,
         inning,
         half_inning,
         batter,
@@ -58,6 +61,7 @@ unnested_events AS (
     SELECT
         id,
         game_id,
+        game_date,
         inning,
         half_inning,
         runner_event->>'runner' as batter,
@@ -70,6 +74,7 @@ unnested_events AS (
 SELECT
     id,
     game_id,
+    game_date,
     inning,
     half_inning,
     batter,
