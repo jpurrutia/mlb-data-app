@@ -354,6 +354,42 @@ Data Flow
 
 - Action item -> Define table model so this can be done (Priority: High)
 
+
+![Data Model v1](image.png)
+
+-- daily calculation -> pre-game calculation of leading runs created. 
+-- daily calculations to get previous day's actuals and use that to calculate the predicted value going forward
+-- snapshotting leading metrics and updating where possible. 
+-- do I keep a snapshot date or update based on game date
+-- FOR tomorrow's given lineup, I need to 
+  
+
+TODO: I need to create the table that is going to have the lineup value information
+
+1. Define lineup value schema
+- game level granularity I think
+- leading calculations across various timespans
+  3 days
+  7 days
+  14 days 
+  1 month
+  3 months
+  6 months
+
+2. Create query to populate the table
+3. Have table for one game created
+4. ensure only new records are going through cascading process
+5. write way to handle duplicates / on insert overwrite, etc.
+6. Create triggers for tables to run when new inserts have (INSERT INTO)
+
+7. Create Model ON API side to get that table and query the data
+8. Create React/Client Component to fetch that data
+
+
+
+
+
+
 - Tables are defined. Just make a visual representation and then model what the final daily lineup value tables will look like.
 - will have a leading calculation in here somewhere. Need to decide if that's being done at the player level or the lineup level.
 -
@@ -375,3 +411,5 @@ Curation Pipelines:
 - Action Item -> have simple stored function to do operation.
 
 TODO: Design the flow of transformation and curation. How often is it going to happen. How much data is going to be process on each cascading run. This is important!!!
+
+

@@ -1,4 +1,4 @@
-CREATE TABLE mlb.curated_pbp_events AS (
+INSERT INTO mlb.curated_pbp_events (
 WITH all_plays AS (
 SELECT
 id AS id,
@@ -72,14 +72,14 @@ unnested_events AS (
     jsonb_array_elements(CASE WHEN runner_events IS NULL THEN '[]'::jsonb ELSE runner_events END) as runner_event
 )
 SELECT
-    id,
-    game_id,
-    game_date,
-    inning,
-    half_inning,
-    batter,
-    pitcher,
-    event
+    id
+    ,game_date::date AS mlbam_game_date
+    ,game_id::integer AS mlbam_game_id
+    ,inning::integer
+    ,half_inning::varchar
+    ,batter::varchar
+    ,pitcher::varchar
+    ,event::varchar
 FROM unnested_events
 ORDER BY id, game_id, inning::int, 
     CASE WHEN half_inning = 'top' THEN 0 ELSE 1 END,

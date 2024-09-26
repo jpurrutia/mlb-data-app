@@ -1,4 +1,4 @@
-CREATE TABLE mlb.curated_events_runs_created AS (
+INSERT INTO mlb.curated_events_runs_created AS (
 WITH events AS (
   SELECT 
     player_name,
