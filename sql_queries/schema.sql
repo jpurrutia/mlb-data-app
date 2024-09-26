@@ -78,8 +78,8 @@ CREATE TABLE mlb.curated_pbp_events (
 	mlbam_game_id int4 NULL,
 	inning int4 NULL,
 	half_inning varchar NULL,
-	batter varchar NULL,
-	pitcher varchar NULL,
+	batter_id varchar NULL,
+	pitcher_id varchar NULL,
 	"event" varchar NULL
 );
 
@@ -89,7 +89,7 @@ CREATE TABLE mlb.curated_pbp_events (
 -- DROP TABLE mlb.curated_events_runs_created;
 
 CREATE TABLE mlb.curated_events_runs_created (
-	player_name text NULL,
+	player_id text NULL,
 	mlbam_game_id integer NOT NULL,
 	mlbam_game_date date NULL,
 	balk integer NULL,
