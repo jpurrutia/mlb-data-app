@@ -355,6 +355,8 @@ Data Flow
 - Action item -> Define table model so this can be done (Priority: High)
 
 
+
+## update - 9.26.2024
 ![Data Model v1](image.png)
 
 -- daily calculation -> pre-game calculation of leading runs created. 
@@ -410,6 +412,6 @@ Curation Pipelines:
 
 - Action Item -> have simple stored function to do operation.
 
-TODO: Design the flow of transformation and curation. How often is it going to happen. How much data is going to be process on each cascading run. This is important!!!
+TODO: Design the flow of transformation and curation. How often is it going to happen. How much data is going to be process on each cascading run. This is important
 
 
