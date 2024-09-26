@@ -1,24 +1,24 @@
 INSERT INTO mlb.curated_events_runs_created (
 WITH events AS (
   SELECT 
-    player_name,
+    player_id,
     mlbam_game_id,
     mlbam_game_date,
     event,
     COUNT(*) as event_count
   FROM (
     SELECT 
-      COALESCE(batter, pitcher) as player_name,
+      COALESCE(batter, pitcher) as player_id,
       mlbam_game_id,
       mlbam_game_date::date as mlbam_game_date,
       event
     FROM mlb.curated_pbp_events
   ) subquery
-  GROUP BY player_name, mlbam_game_id, mlbam_game_date, event
+  GROUP BY player_id, mlbam_game_id, mlbam_game_date, event
 ),
 event_counts AS (
 SELECT 
-  player_name,
+  player_id,
   mlbam_game_id,
   mlbam_game_date,
   SUM(CASE WHEN event = 'Balk' THEN event_count ELSE 0 END) as balk,
@@ -69,8 +69,8 @@ SELECT
   SUM(CASE WHEN event = 'Stolen Base 3B' THEN event_count ELSE 0 END) as stolen_base_3b,
   SUM(CASE WHEN event = 'Caught Stealing' THEN event_count ELSE 0 END) as caught_stealing
 FROM events
-GROUP BY player_name, mlbam_game_id, mlbam_game_date
-ORDER BY player_name, mlbam_game_id, mlbam_game_date
+GROUP BY player_id, mlbam_game_id, mlbam_game_date
+ORDER BY player_id, mlbam_game_id, mlbam_game_date
 ),
 calculated_stats AS (
   SELECT *,
@@ -90,5 +90,5 @@ SELECT *,
     ELSE (on_base * bases_advanced) / opportunities 
   END AS technical_rc
 FROM calculated_stats
-ORDER BY player_name, mlbam_game_id, mlbam_game_date
+ORDER BY player_id, mlbam_game_id, mlbam_game_date 
 )
