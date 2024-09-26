@@ -14,16 +14,15 @@ CREATE TABLE mlb.games (
 );
 
 CREATE TABLE mlb.raw_pbp (
-	id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+	id uuid DEFAULT gen_random_uuid() NOT NULL,
 	mlbam_game_date date NOT NULL,
 	mlbam_game_id int4 NOT NULL,
 	pbp_payload jsonb NOT NULL,
-	created_at timestamptz DEFAULT NOW(),
-	updated_at timestamptz DEFAULT NOW(),
-	UNIQUE (mlbam_game_id)
-	-- should the unique be a concat of game, date?
+	created_at timestamptz DEFAULT now() NULL,
+	updated_at timestamptz DEFAULT now() NULL,
+	CONSTRAINT raw_pbp_mlbam_game_id_key UNIQUE (mlbam_game_id),
+	CONSTRAINT raw_pbp_pkey PRIMARY KEY (id)
 );
-
 
 CREATE TABLE mlb.raw_game_lineups (
 	-- might need to see if this is scalable ID creation

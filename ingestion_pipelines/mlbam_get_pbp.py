@@ -1,3 +1,4 @@
+import datetime
 import json
 import psycopg2
 
@@ -17,6 +18,7 @@ def main():
         db = connect_to_db()
 
         with db.cursor() as cur:
+            breakpoint()
             write_pbp_payload_to_table(
                 pbp_data["gameData"]["datetime"]["officialDate"],
                 pbp_data["gamePk"],
