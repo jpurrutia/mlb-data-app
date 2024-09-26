@@ -6,21 +6,21 @@ import (
 	"gorm.io/gorm"
 )
 
-type Event struct {
+type CuratedPBPEvent struct {
 	ID         string    `json:"id"`
 	GameID     int       `json:"game_id"`
 	Inning     int       `json:"inning"`
 	Date       time.Time `json:"date"`
 	HalfInning string    `json:"half_inning"`
-	BatterId   string    `json:"batter"`
-	PitcherId  string    `json:"pitcher"`
+	BatterId   int       `json:"batter_id"`
+	PitcherId  int       `json:"pitcher_id"`
 	Event      string    `json:"event"`
 }
 
-func ListEvents(db *gorm.DB) ([]Event, error) {
-	var event []Event
-	if err := db.Find(&event).Error; err != nil {
+func ListEvents(db *gorm.DB) ([]CuratedPBPEvent, error) {
+	var curatedPbpEvent []CuratedPBPEvent
+	if err := db.Find(&curatedPbpEvent).Error; err != nil {
 		return nil, err
 	}
-	return event, nil
+	return curatedPbpEvent, nil
 }

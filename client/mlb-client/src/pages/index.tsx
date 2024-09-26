@@ -19,8 +19,8 @@ export default function Home({ events, error }: HomeProps) {
           <tr style={{ backgroundColor: '#f2f2f2' }}>
             <th style={{ border: '1px solid #ddd', padding: '8px' }}>Inning</th>
             <th style={{ border: '1px solid #ddd', padding: '8px' }}>Half</th>
-            <th style={{ border: '1px solid #ddd', padding: '8px' }}>Batter ID</th>
-            <th style={{ border: '1px solid #ddd', padding: '8px' }}>Pitcher ID</th>
+            <th style={{ border: '1px solid #ddd', padding: '8px' }}>BatterId</th>
+            <th style={{ border: '1px solid #ddd', padding: '8px' }}>PitcherId</th>
             <th style={{ border: '1px solid #ddd', padding: '8px' }}>Event</th>
           </tr>
         </thead>
@@ -29,8 +29,8 @@ export default function Home({ events, error }: HomeProps) {
             <tr key={index} style={{ backgroundColor: index % 2 === 0 ? '#f8f8f8' : 'white' }}>
               <td style={{ border: '1px solid #ddd', padding: '8px' }}>{event.inning}</td>
               <td style={{ border: '1px solid #ddd', padding: '8px' }}>{event.half_inning}</td>
-              <td style={{ border: '1px solid #ddd', padding: '8px' }}>{event.batterId}</td>
-              <td style={{ border: '1px solid #ddd', padding: '8px' }}>{event.pitcherId}</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>{event.batter_id}</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>{event.pitcher_id}</td>
               <td style={{ border: '1px solid #ddd', padding: '8px' }}>{event.event}</td>
             </tr>
           ))}

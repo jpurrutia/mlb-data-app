@@ -75,7 +75,7 @@ CREATE TABLE mlb.raw_pbp (
 CREATE TABLE mlb.curated_pbp_events (
 	id uuid NULL,
 	mlbam_game_date date NULL,
-	mlbam_game_id int4 NULL,
+	mlbam_game_id integer NULL,
 	inning int4 NULL,
 	half_inning varchar NULL,
 	batter_id integer NULL,
