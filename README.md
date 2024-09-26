@@ -415,3 +415,7 @@ Curation Pipelines:
 TODO: Design the flow of transformation and curation. How often is it going to happen. How much data is going to be process on each cascading run. This is important
 
 
+CHECKPOINT UI and SERVER:
+
+UI:![UI Image](UI-image.png)
+Server: ![Server Image](server-image.png)
