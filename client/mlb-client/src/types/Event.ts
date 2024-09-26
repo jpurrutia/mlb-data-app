@@ -4,7 +4,7 @@ export interface Event {
     inning: number;
     date: string;
     half_inning: string;
-    batter: string;
-    pitcher: string;
+    batter_id: string;
+    pitcher_id: string;
     event: string;
   }

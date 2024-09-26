@@ -8,7 +8,7 @@ WITH events AS (
     COUNT(*) as event_count
   FROM (
     SELECT 
-      COALESCE(batter, pitcher) as player_id,
+      COALESCE(batter_id, pitcher_id) as player_id,
       mlbam_game_id,
       mlbam_game_date::date as mlbam_game_date,
       event

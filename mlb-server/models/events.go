@@ -12,8 +12,8 @@ type Event struct {
 	Inning     int       `json:"inning"`
 	Date       time.Time `json:"date"`
 	HalfInning string    `json:"half_inning"`
-	Batter     string    `json:"batter"`
-	Pitcher    string    `json:"pitcher"`
+	BatterId   string    `json:"batter"`
+	PitcherId  string    `json:"pitcher"`
 	Event      string    `json:"event"`
 }
 

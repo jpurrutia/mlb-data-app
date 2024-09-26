@@ -26,8 +26,8 @@ const UserInterface: React.FC<UserInterfaceProps> = ({ events }) => {
               inning={event.inning}
               date={event.date}
               halfInning={event.half_inning}
-              batter={event.batter}
-              pitcher={event.pitcher}
+              batterId={event.batterId}
+              pitcherId={event.pitcherId}
               event={event.event}
             />
           ))}

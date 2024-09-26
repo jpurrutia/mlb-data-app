@@ -7,8 +7,8 @@ interface EventProps {
     inning: number;
     date: string;
     halfInning: string;
-    batter: string;
-    pitcher: string;
+    batterId: number;
+    pitcherId: number;
     event: string;
 }
 
@@ -18,8 +18,8 @@ const BaseballEvent: React.FC<EventProps> = ({
     inning,
     date,
     halfInning,
-    batter,
-    pitcher,
+    batterId,
+    pitcherId,
     event,
 }) => {
     return (
@@ -36,10 +36,10 @@ const BaseballEvent: React.FC<EventProps> = ({
                 <div>{format(new Date(date), 'PPp')}</div>
                 <div className="font-semibold">Half Inning:</div>
                 <div>{halfInning}</div>
-                <div className="font-semibold">Batter:</div>
-                <div>{batter}</div>
-                <div className="font-semibold">Pitcher:</div>
-                <div>{pitcher}</div>
+                <div className="font-semibold">Batter ID:</div>
+                <div>{batterId}</div>
+                <div className="font-semibold">Pitcher ID:</div>
+                <div>{pitcherId}</div>
                 <div className="font-semibold">Event:</div>
                 <div>{event}</div>
             </div>
