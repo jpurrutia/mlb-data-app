@@ -90,7 +90,8 @@ CREATE TABLE mlb.curated_pbp_events (
 
 CREATE TABLE mlb.curated_events_runs_created (
 	player_name text NULL,
-	game_date date NULL,
+	mlbam_game_id integer NOT NULL,
+	mlbam_game_date date NULL,
 	balk integer NULL,
 	batter_out integer NULL,
 	bunt_groundout integer NULL,
@@ -144,8 +145,12 @@ CREATE TABLE mlb.curated_events_runs_created (
 	on_base integer NULL,
 	bases_advanced numeric NULL,
 	opportunities numeric NULL,
-	technical_rc numeric NULL
+	technical_rc numeric NULL,
+	created_at timestamptz DEFAULT now() NULL,
+	updated_at timestamptz DEFAULT now() NULL
+	-- figure out the update overwrite on insert
 );
+
 
 
 -- mlb.raw_lineups definition
