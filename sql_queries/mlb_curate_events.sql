@@ -29,14 +29,14 @@ play_events AS (
         game_date,
         all_plays->'about'->>'inning' as inning,
         all_plays->'about'->>'halfInning' as half_inning,
-        all_plays->'matchup'->'batter'->>'fullName' as batter,
-        all_plays->'matchup'->'pitcher'->>'fullName' as pitcher,
+        all_plays->'matchup'->'batter'->>'id' as batter_id,
+        all_plays->'matchup'->'pitcher'->>'id' as pitcher_id,
         all_plays->'result'->>'event' as event,
         all_plays->'result'->>'description' as description,
         (
             SELECT jsonb_agg(jsonb_build_object(
                 'event', runner->'details'->>'event',
-                'runner', runner->'details'->'runner'->>'fullName',
+                'runner', runner->'details'->'runner'->>'id',
                 'startBase', runner->'movement'->>'start',
                 'endBase', runner->'movement'->>'end'
             ))
@@ -52,8 +52,8 @@ unnested_events AS (
         game_date,
         inning,
         half_inning,
-        batter,
-        pitcher,
+        batter_id,
+        pitcher_id,
         event,
         runner_events
     FROM play_events
@@ -64,8 +64,8 @@ unnested_events AS (
         game_date,
         inning,
         half_inning,
-        runner_event->>'runner' as batter,
-        pitcher,
+        runner_event->>'runner' as batter_id,
+        pitcher_id,
         runner_event->>'event' as event,
         NULL as runner_events
     FROM play_events,
@@ -77,8 +77,8 @@ SELECT
     ,game_id::integer AS mlbam_game_id
     ,inning::integer
     ,half_inning::varchar
-    ,batter::varchar
-    ,pitcher::varchar
+    ,batter_id::varchar
+    ,pitcher_id::varchar
     ,event::varchar
 FROM unnested_events
 ORDER BY id, game_id, inning::int, 
