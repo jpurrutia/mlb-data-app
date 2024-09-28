@@ -1,5 +1,5 @@
 -- DDL Updated and added to 
-INSERT INTO mlb.games (
+INSERT INTO mlb.curated_games (
 WITH dates_payload AS (
 	SELECT jsonb_array_elements(schedule_payload->'dates') AS dates_payload
 	FROM mlb.raw_schedule
