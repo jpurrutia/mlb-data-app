@@ -33,7 +33,7 @@ def write_schedule_payload_to_table(
         cursor.execute(
             f"""INSERT INTO {schema}.raw_{table} ({table}_date, {table}_payload, created_at, updated_at)
             VALUES (%s, %s::jsonb, NOW(), NOW())
-            ON CONFLICT (schedule_date)
+            ON CONFLICT (id)
             DO UPDATE SET {table}_payload = EXCLUDED.{table}_payload, updated_at = NOW()""",
             (dt, payload),
         )
