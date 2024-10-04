@@ -419,3 +419,19 @@ CHECKPOINT UI and SERVER:
 
 UI:![UI Image](UI-image.png)
 Server: ![Server Image](server-image.png)
+
+
+Working on:
+introducing figma
+project and UI design
+data model improvements
+historical backfill
+
+Lean canvas
+![problem statement](image-1.png)
+![solution](image-2.png)
+
+UI Mock Up Design
+
+![Login](image-4.png)
+![Matchup Projections Page](image-3.png)
