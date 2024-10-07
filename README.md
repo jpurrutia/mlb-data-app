@@ -435,3 +435,24 @@ UI Mock Up Design
 
 ![Login](image-4.png)
 ![Matchup Projections Page](image-3.png)
+
+
+
+DDL for players?
+
+```
+-- mlb.players definition
+
+-- Drop table
+
+-- DROP TABLE mlb.players;
+
+CREATE TABLE mlb.players (
+	player_id text NULL,
+	player_name text NULL,
+	player_pos text NULL,
+	season text NULL,
+	team_id text NULL
+);
+```
+
