@@ -422,9 +422,9 @@ Server: ![Server Image](server-image.png)
 
 
 Working on:
-introducing figma
-project and UI design
-data model improvements
+introducing figma - <X>
+project and UI design - <X>
+data model improvements - 
 historical backfill
 
 Lean canvas
@@ -456,3 +456,42 @@ CREATE TABLE mlb.players (
 );
 ```
 
+
+
+
+BACKFILLING:
+
+backfilling for schedule scripts are complete. Orchestration needs to be drawn up.
+
+1. Schedule and GAME backfilling is the first step
+2. PBP Backfilling
+3. Player and Roster backfilling
+4. Analytics backfilling
+
+I think?
+
+
+10/22/2024
+- added pbp backfill ingestion script - version 1: needs to be refact
+ored and all ingestion functions need to be standardized'
+[main fad23df] added pbp backfill ingestion script - version 1: needs to be refactored and all ingestion functions need to be standardized
+
+LEAD, LAG function docs - reference
+https://datalemur.com/sql-tutorial/sql-time-series-window-function-lead-lag
+
+Added SQL script to run calculation.
+added initial lead and lag metrics'
+[main 3cd12ff] added initial lead and lag metrics
+
+Backfilled schedule data
+Backfilled SOME PBP data for testing
+
+# TODO: 
+- finalize SQL queries that are in dbeaver and in vscode ( 15 mins )
+- need to standardize ingestion functions
+- standardize_column_names
+- standardize main gunctions
+- abstraction and function refactoring to minimize code
+- OOP? -> can design
+- INSERTS ON CONFLICT standardized
+- level up logging from print      
