@@ -98,14 +98,37 @@ UI/UX Design:
 
 ### Post-MVP Features:
 1. Backfills:
-  - backfill historical data
+  - backfill historical data (PBP, shcedule, players, rosters)
 
 2. Advanced Calculations:
   - lead/lag functions in SQL for histroical trends and player/linup analysis
+  - WAR, FIP
+
+3. Real-Time Data
+  - IMplement streaming or real-time ingestion for live games (websockets, polling APIs)
+
+4. Analytics Dashboards:
+  - Build a frontend dashboard showing pre-game predictions, live updates, and game summaries.
+  - Add filters and drill-down functionality for detailed stats and comparisons
+
+5. Cloud Hosting & CICD:
+  - Implement CI/CD piplines for GoLang API.
+  - containerize the GO API and deploy
+
+6. Security:
+  - Add authentication and auth to protect API endpoints (OAuth)
+
+
+Immediate Next Steps:
+1. Complete INgestion Pipelines
+2. Curate Processed Silver Tables
+3. Design Gold Table Models
+4. Develop API endpoints
+5. Build UI components for data
 
 
 
-...TBD
+
 
 
 # DUCKDB testing
