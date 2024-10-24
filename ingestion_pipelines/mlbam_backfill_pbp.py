@@ -24,7 +24,7 @@ def query_schedule_dates():
                 cur.execute(
                     """SELECT DISTINCT date, game_id
                        FROM mlb.curated_games
-                       WHERE game_id >= 216813
+                       WHERE date >= DATE('2023-03-01')
                        ORDER BY date ASC;
                     """
                 )
