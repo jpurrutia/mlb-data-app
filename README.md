@@ -1,9 +1,111 @@
 
+# Project Overview
 
-Thinking about object oriented approach
-base classes that set up database connections and set context for mlb class
-Those base classes at LLI used ORM but honestly this is not lightweight and I don't think
-I need to go down this route
+### Objective:
+Predice baseball game outcomes using a combination of lineup performance, pitcher runs allowed, bullpen strength, pitch-by-pitch data, and more.
+
+### Key Features:
+- Pre-game analytics to estimate outcomes before game begins.
+- Track top fantasy player performances.
+- Analyze games pitch-by-pitch
+- Eventually, create robust prediction engine combing all data points.
+
+### Data Sources
+1. MLBAM API (Primary Source)
+  - provides in-depth play-by-play data, linwups with pitcher stats, and bullpen data.
+2. Fangraphs (Secondary Source)
+  - For advanced baseball statistics and player metrics.
+3. Spotrac
+  - For player contracts, salary-related data to include financials in analysis.
+
+### Data Volume:
+- Play by Play Data: 180K+ records per season
+- Historical Data: 15-20 seasons ~15-20 GB
+
+### Data Model
+#### Primary Tables:
+  - raw_pbp: Raw play-by-play data
+  - raw_schedule: Games schedule and statuses
+  - raw_lineups: Starting lineups and batting orders.
+
+#### Curated Tables:
+ - curated_pbp: Processed play-by-play data 
+ - curated_games: Processed schedule and game data.
+ - curated_lineups: Curated lineup data with pre-game data
+
+#### Future Gold Tables:
+- TODO:
+- TODO:
+
+
+### Data Architecture:
+Bronze Layer: Raw data directly from external sources (MLBAM API, Fangraphs, Spotract)
+
+Silver Layer: Curated and processed data (aggregations, filtering, transformations)
+
+Gold Layer: Aggregated and calculated data ready for API consumption and real-time queries.
+
+
+### System Architecture:
+DUCKDB - In Testing 
+- Efficient for analytical queries on local files
+
+PostgreSQL
+- Production database for relational data tables and structured data models.
+
+Data Processing
+- Transformation Pipelines: Run on ingested data to curate raw data into useful analytical formats (pbp -> curated events -> calculations)
+
+### API Development (GoLang):
+- API Calls
+  - Building endpoints to provide data like play-by-play analysis, lineup performance, and game outcomes
+  - Core Components
+    1. http.Client - API requests
+    2. http.Request - handle different requests and responses
+    3. contect.Context for timeouts and cancellation
+
+- Testing:
+  - TODO: Unit, Integration, End-to-End testing
+  - Build mock database for testing API
+
+
+### Frontend Development (Reac/Next.js):
+UI/UX Design:
+- Designing the frontend with Next.js with a focus on displaying game statistics, lineup values, and game predictions.
+- Components:
+  - EventTable.tsx: Table for displaying play-by-play data and player stats.
+  - Sorting, filtering, and paginations are future enhancements.
+  - Expanding this into visualizations (charts, graphs, etc.)
+
+
+### Data Flow
+1. Ingestion Pipelines:
+  - Collect Raw Data from APIs (MLBAM, Fangraphs)
+  - Validate, clean, and store in bronze tables
+
+2. Curation Pipelines:
+  - Tranasform raw data into silver tables with curated data
+  - Handle pivoting, aggregation, and filtering
+
+3. Final Gold Tables:
+  - Store high-level aggregates ready for API consumption
+  - Daily lineup values, game predictions, player metrics
+
+### Orchestration and Automation:
+- Cron for python jobs to stay lightweight, but eventually a Dockerized Airflow/Dagster could be thought about.
+
+- Stored procedures and triggers for SQL based transformation and triggering.
+
+### Post-MVP Features:
+1. Backfills:
+  - backfill historical data
+
+2. Advanced Calculations:
+  - lead/lag functions in SQL for histroical trends and player/linup analysis
+
+
+
+...TBD
 
 
 # DUCKDB testing
@@ -495,3 +597,10 @@ Backfilled SOME PBP data for testing
 - OOP? -> can design
 - INSERTS ON CONFLICT standardized
 - level up logging from print      
+
+
+
+
+Makefile
+Bash Scripts for local deployment
+run one command
