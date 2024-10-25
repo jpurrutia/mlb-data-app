@@ -2,11 +2,8 @@
 # Project Overview
 
 ### Objective:
-Predice baseball game outcomes using a combination of lineup performance, pitcher runs allowed, bullpen strength, pitch-by-pitch data, and more.
+Predict baseball game outcomes using a combination of lineup performance, pitcher runs allowed, bullpen strength, pitch-by-pitch data, and more.
 
-Lean canvas
-![problem statement](image-1.png)
-![solution](image-2.png)
 
 
 ### Key Features:
@@ -18,6 +15,7 @@ Lean canvas
 ### Data Sources
 1. MLBAM API (Primary Source)
   - provides in-depth play-by-play data, linwups with pitcher stats, and bullpen data.
+
 
 
 #### Play By Play
@@ -64,7 +62,8 @@ First Pitch
   - For advanced baseball statistics and player metrics.
 3. Spotrac
   - For player contracts, salary-related data to include financials in analysis.
-
+4. Odds Portal Historical Odds Data
+- https://www.oddsportal.com/baseball/usa/mlb/results/
 
 ### Data Volume:
 - Play by Play Data: 180K+ records per season
@@ -99,6 +98,8 @@ Data Model Expansion:
 - Seasons
 - Leagues
 - Venues
+
+
 
 
 Notes for identifier column:
@@ -325,11 +326,11 @@ Need to validate that I'm only inserting new records and overwrite on a key so n
   - backfill historical data (PBP, shcedule, players, rosters)
 
 2. Advanced Calculations:
-  - lead/lag functions in SQL for histroical trends and player/linup analysis
+  - lead/lag functions in SQL for historical trends and player/linup analysis
   - WAR, FIP
 
 3. Real-Time Data (Streaming)
-  - IMplement streaming or real-time ingestion for live games (websockets, polling APIs)
+  - Implement streaming or real-time ingestion for live games (websockets, polling APIs)
 
 4. Testing
 
