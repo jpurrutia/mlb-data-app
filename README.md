@@ -302,12 +302,33 @@ If possible, implement live updates as new events occur during a game
 #### Backfilling
 BACKFILLING: Orchestration needs to be drawn up.
 
-1. Schedule and GAME backfilling is the first step
-2. PBP Backfilling
+Steps:
+1. Schedule and GAME ingestion backfilling
+  - Py Ingestion scripts to populate raw tables (Date Filters Set)
+    a. `mlbam_backfill_pbp`
+    b. `mlbam_backfill_schedule` 
+  
+2. Curation cascading from ingestion
+  - SQL Curation scripts to transform values and extract from JSON
+    a1. `mlb_curate_pbp`
+    a2. `mlb_curate_events`
+    a3. `mlb_curate_event_runs_created`
+    d. `mlb_curate_games`
+    e. `mlb_curate_linups`
+    f.
+
 3. Player and Roster backfilling
+  - 
+
 4. Analytics backfilling
+  - 
+
+
+
 
 Version 1 for backfilling pipeliens works but python code needs to be refactored
+
+
 
 
 ### Data Quality
