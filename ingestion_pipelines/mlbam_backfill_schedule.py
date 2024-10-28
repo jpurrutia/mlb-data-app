@@ -86,6 +86,6 @@ def historical_backfill(start_date: str, end_date: str):
 if __name__ == "__main__":
     # Define your start date and end date for backfill (going back 10 years)
     end_date = datetime.now().strftime("%Y-%m-%d")
-    start_date = (datetime.now() - timedelta(days=30 * 365)).strftime("%Y-%m-%d")
+    start_date = (datetime.now() - timedelta(days=5)).strftime("%Y-%m-%d")
 
     historical_backfill(start_date=start_date, end_date=end_date)
