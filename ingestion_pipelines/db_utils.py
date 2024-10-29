@@ -1,8 +1,9 @@
 from datetime import date
 from typing import Dict, Any
 
+import pandas as pd
 import psycopg2
-from psycopg2 import OperationalError
+from psycopg2 import OperationalError, DatabaseError
 
 
 def connect_to_db():
@@ -62,4 +63,28 @@ def write_pbp_payload_to_table(
         print(f"Successfully written payload for {game_id} to {schema}.raw_{table}")
     except psycopg2.Error as e:
         print(f"SQL error: {e}")
+    return
+
+
+def query_dates_gameid():
+    db = connect_to_db()
+
+    try:
+        try:
+            with db.cursor() as cur:
+                cur.execute(
+                    """SELECT DISTINCT date, game_id
+                       FROM mlb.curated_games
+                       WHERE date >= DATE('2024-10-01')
+                       ORDER BY date ASC;
+                    """
+                )
+                return pd.DataFrame(cur.fetchall(), columns=["date", "game_id"])
+        except (OperationalError, DatabaseError) as e:
+            print(f"Database error occurred: {e}")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+    finally:
+        db.close()
     return

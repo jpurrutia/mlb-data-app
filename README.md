@@ -310,10 +310,9 @@ Steps:
   
 2. Curation cascading from ingestion
   - SQL Curation scripts to transform values and extract from JSON
-    a1. `mlb_curate_pbp`
-    a2. `mlb_curate_events`
-    a3. `mlb_curate_event_runs_created`
-    d. `mlb_curate_games`
+    a1. `mlb_curate_events`
+    b1. `mlb_curate_games`
+    a2. `mlb_curate_event_runs_created`
     e. `mlb_curate_linups`
     f.
 
@@ -428,4 +427,48 @@ duckdb.sql("SELECT 4;")
 duckdb.sql("CREATE EXTENSION pg_duckdb;")
 ```
 
+10/28/2024
 
+#TODO DuckDB with persistant storage
+- store: minio or S3
+
+- deprecated mlb_curate_pbp for mlb_curate_events
+- add backfill_lineups
+- modify db util funcs
+- modify db curation code
+- insert overwrite 
+- Added the insert on overwrite or technical_rc
+- updated curated rc schema
+- updaed lineup values query - added debugging code
+
+- TO DO: 
+figure out why there are only eight batters when running
+```
+WITH flattened_game_lineups AS (
+	SELECT g.game_id
+		,g.date AS game_date
+		,g.away_team_id
+		,l.away_probable_pitcher
+		,jsonb_array_elements(l.away_bullpen) AS away_bullpen
+		,jsonb_array_elements(l.away_batters) AS away_batters
+		,g.home_team_id
+		,l.home_probable_pitcher
+		,jsonb_array_elements(l.home_bullpen) AS home_bullpen
+		,jsonb_array_elements(l.home_batters) AS home_batters
+	FROM mlb.curated_games g
+	JOIN mlb.curated_lineups l
+	ON g.game_id = l.mlbam_game_id
+	WHERE g.game_id = 775294
+)
+SELECT
+	l.game_id
+	,l.home_batters
+	,c.player_id
+	,CAST(l.home_team_id AS integer) AS home_team_id
+	,'home' AS home_away
+	,c.technical_rc
+FROM flattened_game_lineups l
+INNER JOIN mlb.curated_events_runs_created c
+ON l.game_id = c.mlbam_game_id
+AND CAST(l.home_batters AS integer) = CAST(c.player_id AS integer)
+```

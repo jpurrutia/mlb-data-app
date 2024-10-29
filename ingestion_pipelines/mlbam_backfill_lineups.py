@@ -1,6 +1,7 @@
 from typing import Dict, Any
 from datetime import date
 
+import time
 import json
 import requests
 import psycopg2
@@ -45,8 +46,13 @@ def create_full_payload(payload: Dict[str, Any]) -> Dict[str, Any]:
         raise ValueError(f"Error creating full payoad: {e}")
 
 
-def create_json_payload(lineup_data: Dict[str, Any]) -> str:
-    return json.dumps(lineup_data, indent=2)
+# Leaving in case of need of more dynamic function -> but probably won't be needed.
+# 90 day trial
+# def create_json_payload(lineup_data: Dict[str, Any]) -> str:
+#    """
+#    dynamic changes?
+#    """
+#    return json.dumps(lineup_data, indent=2)
 
 
 def write_lineup_payload_to_table(
@@ -71,16 +77,14 @@ def write_lineup_payload_to_table(
     return
 
 
-def main():
-    try:
-        mlbam_game_ids = query_dates_gameid()
-        # pbp_data = get_game_pbp("745541")
-        breakpoint()
-        full_payload = create_full_payload(pbp_data)
-        breakpoint()
-        json_payload = create_json_payload(full_payload)
+def historical_backfill(mlb_game_ids):
+    db = connect_to_db()
 
-        db = connect_to_db()
+    for idx, game_id in enumerate(mlb_game_ids["game_id"]):
+        pbp_data = get_game_pbp(game_id)
+        full_payload = create_full_payload(pbp_data)
+        # json_payload = create_json_payload(full_payload)
+        full_payload = json.dumps(full_payload, indent=2)
 
         with db.cursor() as cur:
             write_lineup_payload_to_table(
@@ -94,13 +98,29 @@ def main():
 
             db.commit()
 
-    except ValueError as e:
-        print(f"Error {e}")
-    except psycopg2.Error as e:
-        print(f"Database error: {e}")
-    finally:
-        if db:
-            db.close()
+        time.sleep(1)
+
+    db.close()
+    print("Succeessfully Closed DB connection")
+
+
+def main():
+
+    # try:
+    mlb_game_ids = query_dates_gameid()
+    breakpoint()
+    historical_backfill(mlb_game_ids)
+    # pbp_data = get_game_pbp("745541")
+
+
+# TODO: clean this up and add to function
+# except ValueError as e:
+#     print(f"Error {e}")
+# except psycopg2.Error as e:
+#     print(f"Database error: {e}")
+# finally:
+#     if db:
+#         db.close()
 
 
 if __name__ == "__main__":

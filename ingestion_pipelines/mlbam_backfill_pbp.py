@@ -6,8 +6,7 @@ import json
 
 import pandas as pd
 from mlbam_utils import get_game_pbp
-from psycopg2 import OperationalError, DatabaseError
-from db_utils import connect_to_db, write_pbp_payload_to_table
+from db_utils import connect_to_db, write_pbp_payload_to_table, query_dates_gameid
 
 
 # get dates data from schedule table
@@ -15,32 +14,9 @@ from db_utils import connect_to_db, write_pbp_payload_to_table
 # historical backfill
 
 
-def query_schedule_dates():
-    db = connect_to_db()
-
-    try:
-        try:
-            with db.cursor() as cur:
-                cur.execute(
-                    """SELECT DISTINCT date, game_id
-                       FROM mlb.curated_games
-                       WHERE date >= DATE('2023-03-01')
-                       ORDER BY date ASC;
-                    """
-                )
-                return pd.DataFrame(cur.fetchall(), columns=["date", "game_id"])
-        except (OperationalError, DatabaseError) as e:
-            print(f"Database error occurred: {e}")
-        except Exception as e:
-            print(f"An error occurred: {e}")
-
-    finally:
-        db.close()
-    return
-
-
 def historical_backfill(mlb_game_ids):
-    db = connect_to_db()  # Connect to the database once
+    # Connect to the database once
+    db = connect_to_db()
 
     for idx, game_id in enumerate(
         mlb_game_ids["game_id"]
@@ -69,7 +45,7 @@ def historical_backfill(mlb_game_ids):
 
 def main():
 
-    mlb_game_ids = query_schedule_dates()
+    mlb_game_ids = query_dates_gameid()
     historical_backfill(mlb_game_ids)
 
 
