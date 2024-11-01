@@ -48,8 +48,10 @@ def get_schedule_date(schedule_data: Dict[str, Any]) -> str:
 
 def main():
     try:
-        schedule_data = get_mlb_schedule("2024-08-28")
+        schedule_data = get_mlb_schedule("2024-10-29")
+        breakpoint()
         schedule_payload = json.dumps(schedule_data)
+        breakpoint()
         result_date = get_schedule_date(schedule_data=schedule_data)
 
         db = connect_to_db()

@@ -472,3 +472,23 @@ INNER JOIN mlb.curated_events_runs_created c
 ON l.game_id = c.mlbam_game_id
 AND CAST(l.home_batters AS integer) = CAST(c.player_id AS integer)
 ```
+#### Testing because of batting order discrepancy.
+
+Batting Order only has 8 because the join that is performed after flattening the lineup data is a changed batting order, not the pre-game batting order.
+
+ie. 
+
+Teoscar Hernandez was replaced by Chris Taylor after 3 AB/PA
+
+Chris Taylor - went in but had 0 AB/PA so because he was fielding sub in t9.
+
+SO - this says the mlb is overwriting what we thought was a pre-game battingOrder, but is in fact the battingOrder at the end of game of at point in time of game if API is hit mid-game.
+
+For backfilling lineups -> need to use subsitutions and eventData to track lineup changes, get pbp scan it, and write it. 
+
+adding flag and index for lineup as pregame, in-game.
+
+I have a pregame lineup and an end-of-game lineup
+Two values, pre-game and actual
+
+first step need to find how to use substitutions

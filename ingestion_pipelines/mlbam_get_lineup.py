@@ -61,8 +61,8 @@ def write_lineup_payload_to_table(
         cursor.execute(
             f"""INSERT INTO {schema}.raw_{table} (mlbam_game_date, mlbam_game_id, {table}_payload, created_at, updated_at)
             VALUES (%s, %s, %s::jsonb, NOW(), NOW())
-            ON CONFLICT (id)
-            DO UPDATE SET {table}_payload = EXCLUDED.{table}_payload, updated_at = NOW()""",
+            ON CONFLICT (id) -- DO UPDATE SET {table}_payload = EXCLUDED.{table}_payload, updated_at = NOW()
+            """,
             (game_date, game_id, payload),
         )
         print(f"Successfully written payload for {game_id} to {schema}.raw_{table}")
@@ -73,12 +73,15 @@ def write_lineup_payload_to_table(
 
 def main():
     try:
-        mlbam_game_ids = query_dates_gameid()
-        # pbp_data = get_game_pbp("745541")
-        breakpoint()
+        # mlbam_game_ids = query_dates_gameid()
+
+        pbp_data = get_game_pbp("775298")
+
         full_payload = create_full_payload(pbp_data)
         breakpoint()
-        json_payload = create_json_payload(full_payload)
+
+        full_payload = create_json_payload(full_payload)
+        breakpoint()
 
         db = connect_to_db()
 
@@ -88,7 +91,7 @@ def main():
                 pbp_data["gamePk"],
                 "mlb",
                 "lineups",
-                json_payload,
+                full_payload,
                 cur,
             )
 
