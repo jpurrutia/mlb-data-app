@@ -66,40 +66,31 @@ unnested_event_details_cte AS (
 
 
 -- Offensive Sub Postgres Version
-WITH play_events_cte AS (
-	SELECT 
-		jsonb_array_elemets(jsonb_array_elements(pbp_payload->'liveData'->'plays'->'allPlays'))->'playEvents') AS play_events
-    FROM
-        mlb.raw_pbp rp LIMIT 100
+WITH play_events AS (
+SELECT
+    (unnest(liveData.plays.allPlays, recursive := true)) AS play_events
+FROM
+    post_game_data
 ),
-unnested_play_events_cte AS (
-	SELECT
-        jsonb_array_elements(play_events) AS unnested_events
-	FROM
-        play_events_cte
-)
+event_details AS (
     SELECT
-        unnested_events->'details'->>'description' AS description
-    FROM
-        unnested_play_events_cte
-    WHERE unnested_events->'details'->>'description' LIKE '%Offensive Substitution%'
+        unnest(playEvents).details.description AS description
+    FROM play_events
+)
+SELECT description
+FROM event_details
+WHERE description LIKE '%Offensive Substitution%';
 
-
-
+-- PostgreSQL
 SELECT 
-    jsonb_array_elements((jsonb_array_elements(pbp_payload->'liveData'->'plays'->'allPlays'))->'playEvents') AS play_events
+	jsonb_array_elements(
+		(jsonb_array_elements(
+			pbp_payload->'liveData'->'plays'->'allPlays'))->'playEvents')->'details'->>'description' AS play_events
 FROM
     mlb.raw_pbp rp LIMIT 100;
+    
 
 
-
-
-
-
-
-
-
--- Mysql version
 
 
 
