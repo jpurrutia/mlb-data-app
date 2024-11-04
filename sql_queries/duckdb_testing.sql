@@ -81,7 +81,13 @@ FROM play_event_info
 WHERE play_event_description LIKE '%Offensive%'
     
     
-
+'''
+	,regexp_matches(
+		play_event_description,
+		''(?<=replaces\s)(.*)(?=\.)'',
+		''g''
+	) AS subbed_out
+'''
 
 
 
