@@ -210,10 +210,6 @@ CREATE TABLE mlb.curated_lineups (
 );
 
 
-
-
-
-
 -- Mock INSERT Record
 /*
 INSERT INTO mlb.raw_game_lineups (schedule_date, mlbam_game_id, mlbam_team_id, lineup, probable_pitcher, bullpen, home_flag, away_flag, lineup_set, created_at, updated_at)
@@ -229,3 +225,30 @@ DO UPDATE SET lineup = EXCLUDED.lineup
 
 -- SELECT
 -- SELECT * FROM mlb.raw_game_lineups WHERE schedule_date = '2024-08-24' AND mlbam_game_id = 745541 AND mlbam_team_id = 117;
+
+
+
+CREATE TABLE mlb.players (
+	id int4 NOT NULL,
+	first_name text NULL,
+	middle_name text NULL,
+	last_name text NULL,
+	used_name text NULL,
+	birthdate date NULL,
+	birth_city text NULL,
+	birth_state text NULL,
+	birth_country text NULL,
+	height varchar(10) NULL,
+	weight int4 NULL,
+	primary_position varchar(10) NULL,
+	draft_year int4 NULL,
+	last_played date NULL,
+	mlb_debut date NULL,
+	bat_side varchar(1) NULL,
+	pitch_hand varchar(1) NULL,
+	is_verified bool NULL,
+	last_updated timestamp NULL,
+	CONSTRAINT mlbam_players_pk PRIMARY KEY (id)
+);
+CREATE INDEX mlb_players_birthdate ON mlb.players USING btree (birthdate);
+
