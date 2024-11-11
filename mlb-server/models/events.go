@@ -17,9 +17,9 @@ type CuratedPBPEvent struct {
 	Event      string    `json:"event"`
 }
 
-func ListEvents(db *gorm.DB) ([]CuratedPBPEvent, error) {
+func ListEvents(db *gorm.DB, limit int) ([]CuratedPBPEvent, error) {
 	var curatedPbpEvent []CuratedPBPEvent
-	if err := db.Find(&curatedPbpEvent).Error; err != nil {
+	if err := db.Limit(limit).Find(&curatedPbpEvent).Error; err != nil {
 		return nil, err
 	}
 	return curatedPbpEvent, nil
