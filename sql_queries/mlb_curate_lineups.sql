@@ -13,7 +13,7 @@ ORDER BY mlbam_game_date, mlbam_game_id
 )
 
 
--- Seconv version with lineup change and substitution
+-- Second version with lineup change and substitution
 WITH play_event_info AS (
 SELECT
 	mlbam_game_date
@@ -70,8 +70,28 @@ FROM play_event_info e
 JOIN curated_lineups l
 ON e.mlbam_game_id = l.mlbam_game_id
 WHERE play_event_description LIKE '%Substitution%'
-)
-SELECT * FROM batting_order_changes;
+) 
+-- query to replace id in batting order when a player is substituted, and to add the new player to the batting order
+SELECT 
+    id
+    ,mlbam_game_id
+    ,batter_id
+    ,home_batters
+    ,batter_fullname
+    ,batter_info
+    ,sub_test
+    ,subbed_in
+    ,subbed_out
+    ,CASE WHEN sub_test = 'defensive sub'
+    THEN jsonb_set(home_batters, '{0}', jsonb_build_object('id', subbed_in::integer, 'fullName', subbed_in), TRUE)
+    ELSE jsonb_set(home_batters, '{0}', jsonb_build_object('id', subbed_in::integer, 'fullName', subbed_in), TRUE)
+    END AS new_batting_order
+    
+
+
+
+
+
 
 /* BAD QUERIES
 
