@@ -2,30 +2,33 @@
 
 CREATE TABLE game_data AS
 SELECT *
-FROM read_json_auto('./sample_data/2024_10_29_ws_game_4_pregame_pbp.json');
+FROM read_json('./sample_data/2024_10_29_ws_game_4_pregame_pbp.json');
 
 CREATE TABLE post_game_data AS
 SELECT *
-FROM read_json_auto('./sample_data/2024_10_29_ws_game_4_postgame_pbp.json');
+FROM read_json('./sample_data/2024_10_29_ws_game_4_postgame_pbp.json');
 
 
 WITH unnested_plays AS (
-    SELECT unnest(livedata.plays.allplays) AS all_plays
-    FROM post_game_dat
+    SELECT unnest(livedata.plays.allplays).result.event AS all_plays
+    FROM post_game_data
 )
 
-SELECT all_plays.event
+SELECT all_plays
 FROM unnested_plays;
 
 
 
 WITH play_events AS (
-    SELECT unnest(livedata.plays.allplays).playevents.details AS details
+    SELECT unnest(livedata.plays.allplays).playevents AS play_events
     FROM
         post_game_data
 )
 
-SELECT details FROM play_events;
+SELECT unnest(play_events).details FROM play_events;
+
+
+
 
 WITH play_events_cte AS (
     SELECT unnest(livedata.plays.allplays).playevents AS play_events
@@ -36,21 +39,7 @@ WITH play_events_cte AS (
 SELECT unnest(play_events) FROM play_events_cte;
 
 
-/*  GET FOULS */
-WITH play_events_cte AS (
-    SELECT unnest(livedata.plays.allplays).playevents AS play_events
-    FROM
-        post_game_data
-),
 
-unnested_event_details_cte AS (
-    SELECT unnest(play_events) AS unnested_event_details
-    FROM play_events_cte
-)
-
-SELECT unnested_event_details.details.description
-FROM unnested_event_details_cte
-WHERE unnested_event_details_cte.description = 'Foul';
 
 
 /* Offensive Sub Duck DB Version */
@@ -69,6 +58,22 @@ SELECT description
 FROM event_details
 WHERE description LIKE '%Offensive Substitution%';
 
+
+
+/* GET FOULS - this one kinda sucks*/
+/*
+WITH play_events_cte AS (
+    SELECT unnest(livedata.plays.allplays) AS all_plays
+    FROM post_game_data
+)
+SELECT 
+    play_event.details.description AS unnested_event_details
+FROM 
+    play_events_cte,
+    unnest(all_plays.playEvents) AS play_event
+WHERE 
+    play_event.details.description = 'Foul';
+*/
 /* PostgreSQL
 WITH play_event_info AS (
     SELECT
