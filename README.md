@@ -492,3 +492,7 @@ I have a pregame lineup and an end-of-game lineup
 Two values, pre-game and actual
 
 first step need to find how to use substitutions
+
+
+This is my first commit - Devon
+

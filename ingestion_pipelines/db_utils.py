@@ -6,15 +6,15 @@ import psycopg2
 from psycopg2 import OperationalError, DatabaseError
 
 
-def connect_to_db():
+def connect_to_db(username, schema):
     try:
         conn = psycopg2.connect(
             host="localhost",
-            user="jpurrutia",
+            user=username,
             database="postgres",
             password="postgres",
             port=5432,
-            options="-c search_path=mlb",
+            options=f"-c search_path={schema}",
         )
         print("Connection to DB successful")
         return conn
