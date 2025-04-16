@@ -4,7 +4,8 @@
 ### Objective:
 Predict baseball game outcomes using a combination of lineup performance, pitcher runs allowed, bullpen strength, pitch-by-pitch data, and more.
 
-
+Product Vision:
+https://www.trumedianetworks.com/baseball
 
 ### Key Features:
 - Pre-game analytics to estimate outcomes before game begins.
@@ -492,3 +493,6 @@ I have a pregame lineup and an end-of-game lineup
 Two values, pre-game and actual
 
 first step need to find how to use substitutions
+
+
+
